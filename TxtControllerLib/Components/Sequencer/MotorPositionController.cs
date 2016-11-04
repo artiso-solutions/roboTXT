@@ -238,7 +238,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
                 positionReached =
                     await
                         controllerSequencer.StartMotorStopWithDigitalInputInternalAsync(MotorConfiguration.Motor,
-                            Speed.Slow, freeRunDirection, MotorConfiguration.ReferencingInput,
+                            MotorConfiguration.ReferencingFinePositioningSpeed, freeRunDirection, MotorConfiguration.ReferencingInput,
                             !MotorConfiguration.ReferencingInputState, timeout);
             }
 
