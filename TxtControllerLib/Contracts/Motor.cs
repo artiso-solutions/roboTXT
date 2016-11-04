@@ -5,6 +5,7 @@
     /// </summary>
     public enum Motor
     {
+        Unknown = -1,
         One = 0,
         Two = 1,
         Three = 2,

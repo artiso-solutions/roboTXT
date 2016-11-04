@@ -86,6 +86,7 @@
     <Compile Include="Components\Communicator\DigitalInputInfo.cs" />
     <Compile Include="Components\Sequencer\IControllerSequencer.cs" />
     <Compile Include="Components\Sequencer\MotorConfiguration.cs" />
+    <Compile Include="Components\Sequencer\ConfigurationValidator.cs" />
     <Compile Include="Components\Sequencer\MotorPositionController.cs" />
     <Compile Include="Components\Communicator\ResponseProcessor.cs" />
     <Compile Include="Components\Sequencer\PositionStorageAccessor.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Contracts\Configuration\InputMode.cs" />
     <Compile Include="Contracts\Configuration\MotorMode.cs" />
     <Compile Include="Contracts\DigitalInput.cs" />
+    <Compile Include="Contracts\Exceptions\ConfigurationValidationException.cs" />
     <Compile Include="Contracts\Motor.cs" />
     <Compile Include="Contracts\MotorPositionInfo.cs" />
     <Compile Include="Contracts\Direction.cs" />

@@ -5,6 +5,7 @@
     /// </summary>
     public enum Direction
     {
+        Unknown = -1,
         Left = 0,
         Right = 1
     }

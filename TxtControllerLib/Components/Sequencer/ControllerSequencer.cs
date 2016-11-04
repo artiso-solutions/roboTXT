@@ -239,6 +239,8 @@ namespace RoboticsTxt.Lib.Components.Sequencer
 
         public MotorPositionController ConfigureMotorPositionController(MotorConfiguration motorConfiguration)
         {
+            ConfigurationValidator.ValidateMotorConfiguration(motorConfiguration);
+
             MotorPositionController configureMotorPositionController;
             if (motorPositionControllers.TryGetValue(motorConfiguration.Motor, out configureMotorPositionController))
             {

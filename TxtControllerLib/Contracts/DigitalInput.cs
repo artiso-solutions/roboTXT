@@ -5,6 +5,7 @@
     /// </summary>
     public enum DigitalInput
     {
+        Unknown = -1,
         One = 0,
         Two,
         Three,
