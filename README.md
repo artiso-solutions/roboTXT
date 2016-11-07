@@ -1,3 +1,7 @@
+![Build status Develop](https://artiso.visualstudio.com/_apis/public/build/definitions/4fbc1b09-9da4-496f-9c69-3df7222e1274/49/badge)
+
+[![NuGet version](https://badge.fury.io/nu/Robotics.TXT.net.svg)](https://badge.fury.io/nu/Robotics.TXT.net)
+
 # Robotics TXT .Net Library
 Simple communication library for controlling the Fischertechnik ROBOTICS TXT controller from .Net.
 The library is work in progress and does not support all functions of the ROBOTICS TXT controller yet.

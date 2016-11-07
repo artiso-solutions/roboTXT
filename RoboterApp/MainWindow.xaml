@@ -50,8 +50,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:MovementButton}">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="5">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
                             <Path Width="26"
                                   Height="26"
                                   Margin="2"
@@ -77,48 +76,78 @@
                     VerticalAlignment="Top"
                     Command="{Binding ReferenceAxisCommand}"
                     Content="Reference Axis" />
-            
+
             <TextBlock>
-                <Run Text="L/R: "/>
-                <Run Text="{Binding TurnLeftRightPositionController.CurrentPosition}"/>
+                <Run Text="L/R: " />
+                <Run Text="{Binding TurnLeftRightPositionController.CurrentPosition}" />
             </TextBlock>
 
             <TextBlock>
-                <Run Text="U/D: "/>
-                <Run Text="{Binding UpDownPositionController.CurrentPosition}"/>
+                <Run Text="U/D: " />
+                <Run Text="{Binding UpDownPositionController.CurrentPosition}" />
             </TextBlock>
 
             <TextBlock>
-                <Run Text="B/F: "/>
-                <Run Text="{Binding BackwardForwardPositionController.CurrentPosition}"/>
+                <Run Text="B/F: " />
+                <Run Text="{Binding BackwardForwardPositionController.CurrentPosition}" />
             </TextBlock>
 
             <TextBlock>
-                <Run Text="O/C: "/>
-                <Run Text="{Binding OpenCloseClampPositionController.CurrentPosition}"/>
+                <Run Text="O/C: " />
+                <Run Text="{Binding OpenCloseClampPositionController.CurrentPosition}" />
             </TextBlock>
-            <TextBox Text="{Binding PositionName}"/>
-            <Button Command="{Binding SavePositionCommand}" CommandParameter="{Binding PositionName}" Content="Save Position" HorizontalAlignment="Center"/>
-            
-            <ItemsControl ItemsSource="{Binding PositionNames}" Margin="10">
+            <TextBox Text="{Binding PositionName}" />
+            <Button HorizontalAlignment="Center"
+                    Command="{Binding SavePositionCommand}"
+                    CommandParameter="{Binding PositionName}"
+                    Content="Save Position" />
+
+            <ItemsControl Margin="10" ItemsSource="{Binding PositionNames}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel></StackPanel>
+                        <StackPanel />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding}" Command="{Binding DataContext.MoveToPositionCommand, ElementName=BaseGrid}" CommandParameter="{Binding}"></Button>
+                        <Button Command="{Binding DataContext.MoveToPositionCommand,
+                                                  ElementName=BaseGrid}"
+                                CommandParameter="{Binding}"
+                                Content="{Binding}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <!--<Button Command="{Binding StartSequenceCommand}" Content="Start Test Sequence" HorizontalAlignment="Center" />-->
-            <Button Command="{Binding AlarmSoundCommand}" Content="Alarm Sound" HorizontalAlignment="Center" />
+            <Button HorizontalAlignment="Center"
+                    Command="{Binding AlarmSoundCommand}"
+                    Content="Alarm Sound" />
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <controls:MovementButton Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         Width="50"
+                                         Height="50" />
+
+                <Label Grid.Row="0" Grid.Column="1">
+                    moves a few steps
+                </Label>
+                <Label Grid.Row="1" Grid.Column="1">
+                    moves while clicking
+                </Label>
+            </Grid>
         </StackPanel>
 
         <Viewbox Grid.Column="1">
-            <Canvas Width="500"
-                    Height="300">
+            <Canvas Width="500" Height="300">
                 <Canvas.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Resources/Robo.jpg" />
                 </Canvas.Background>

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
@@ -54,13 +55,25 @@ namespace RoboticsTxt.Lib.Components.Communicator
             this.communicationLoopTask = Task.Run(() => this.CommunicationLoop(token), this.cancellationTokenSource.Token);
 
             waitForRunningLoop.WaitOne();
+            Task.Delay(10, this.cancellationTokenSource.Token).Wait(this.cancellationTokenSource.Token);
+            if (this.communicationLoopTask.IsFaulted)
+            {
+                this.Stop();
+                throw new CommunicationFailedException("Unable to connect to the controller", this.communicationLoopTask.Exception?.InnerException);
+            }
         }
 
         public void Stop()
         {
-            this.cancellationTokenSource.Cancel();
-            this.communicationLoopTask.Wait(TimeSpan.FromSeconds(3));
-            this.cancellationTokenSource.Dispose();
+            if (!this.cancellationTokenSource.IsCancellationRequested)
+            {
+                this.cancellationTokenSource.Cancel();
+                if (!this.communicationLoopTask.IsCompleted)
+                {
+                    this.communicationLoopTask.Wait(TimeSpan.FromSeconds(3));
+                }
+                this.cancellationTokenSource.Dispose();
+            }
         }
 
         public void QueueCommand(IControllerCommand command)
@@ -75,74 +88,83 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
         private async Task CommunicationLoop(CancellationToken cancellationToken)
         {
-            var driver = new TcpControllerDriver(ipAddress);
-            var currentCommandMessage = new ExchangeDataCommandMessage();
-
-            driver.StartCommunication();
-            driver.SendCommand(new StartOnlineCommandMessage());
-
-            var configMessage = new UpdateConfigCommandMessage {ConfigId = 0};
-
-            configMessage.MotorModes = this.controllerConfiguration.MotorModes ??
-                                       new[] {MotorMode.O1O2, MotorMode.O1O2, MotorMode.O1O2, MotorMode.O1O2};
-
-            configMessage.CounterModes = this.controllerConfiguration.CounterModes ??
-                                         new[] { CounterMode.Normal, CounterMode.Normal, CounterMode.Normal, CounterMode.Normal };
-
-            configMessage.InputConfigurations = this.controllerConfiguration.InputConfigurations ??
-                                                Enumerable.Repeat(
-                                                    new InputConfiguration
-                                                    {
-                                                        InputMode = InputMode.Resistance,
-                                                        IsDigital = true
-                                                    }, 8).ToArray();
-
-            driver.SendCommand(configMessage);
-
-            var delayTimeSpan = this.controllerConfiguration.CommunicationCycleTime;
-
-            while (!cancellationToken.IsCancellationRequested || !this.commandQueue.IsEmpty)
+            try
             {
-                IControllerCommand command;
-                while (this.commandQueue.TryDequeue(out command))
+                var driver = new TcpControllerDriver(ipAddress);
+                var currentCommandMessage = new ExchangeDataCommandMessage();
+
+                driver.StartCommunication();
+                driver.SendCommand(new StartOnlineCommandMessage());
+
+
+                var configMessage = new UpdateConfigCommandMessage { ConfigId = 0 };
+
+                configMessage.MotorModes = this.controllerConfiguration.MotorModes ??
+                                           new[] { MotorMode.O1O2, MotorMode.O1O2, MotorMode.O1O2, MotorMode.O1O2 };
+
+                configMessage.CounterModes = this.controllerConfiguration.CounterModes ??
+                                             new[] { CounterMode.Normal, CounterMode.Normal, CounterMode.Normal, CounterMode.Normal };
+
+                configMessage.InputConfigurations = this.controllerConfiguration.InputConfigurations ??
+                                                    Enumerable.Repeat(
+                                                        new InputConfiguration
+                                                        {
+                                                            InputMode = InputMode.Resistance,
+                                                            IsDigital = true
+                                                        }, 8).ToArray();
+
+                driver.SendCommand(configMessage);
+
+                var delayTimeSpan = this.controllerConfiguration.CommunicationCycleTime;
+
+                while (!cancellationToken.IsCancellationRequested || !this.commandQueue.IsEmpty)
                 {
+                    IControllerCommand command;
+                    while (this.commandQueue.TryDequeue(out command))
+                    {
+                        try
+                        {
+                            this.logger.DebugExt($"Process {command.GetType().Name}");
+                            this.commandProcessor.ProcessControllerCommand(this, command, currentCommandMessage);
+                        }
+                        catch (Exception exception)
+                        {
+                            this.logger.Error(exception);
+                        }
+                    }
+
+                    ExchangeDataResponseMessage response;
                     try
                     {
-                        this.logger.DebugExt($"Process {command.GetType().Name}");
-                        this.commandProcessor.ProcessControllerCommand(this, command, currentCommandMessage);
+                        response = driver.SendCommand<ExchangeDataCommandMessage, ExchangeDataResponseMessage>(currentCommandMessage);
                     }
                     catch (Exception exception)
                     {
-                        this.logger.Error(exception);
+                        logger.Error("Failed to send request", exception);
+                        continue;
                     }
+
+                    try
+                    {
+                        this.responseProcessor.ProcessResponse(response, this.UniversalInputs, this.MotorDistanceInfos);
+                    }
+                    catch (Exception exception)
+                    {
+                        logger.Error("Failed to process response", exception);
+                        continue;
+                    }
+
+                    await Task.Delay(delayTimeSpan);
+                    waitForRunningLoop.Set();
                 }
 
-                ExchangeDataResponseMessage response;
-                try
-                {
-                    response = driver.SendCommand<ExchangeDataCommandMessage, ExchangeDataResponseMessage>(currentCommandMessage);
-                }
-                catch (Exception exception)
-                {
-                    logger.Error("Failed to send request", exception);
-                    continue;
-                }
-
-                try
-                {
-                    this.responseProcessor.ProcessResponse(response, this.UniversalInputs, this.MotorDistanceInfos);
-                }
-                catch (Exception exception)
-                {
-                    logger.Error("Failed to process response", exception);
-                    continue;
-                }
-
-                await Task.Delay(delayTimeSpan);
+                driver.SendCommand(new StopOnlineCommandMessage());
+            }
+            catch (SocketException)
+            {
                 waitForRunningLoop.Set();
-            }   
-
-            driver.SendCommand(new StopOnlineCommandMessage());
+                throw;
+            }
         }
     }
 }

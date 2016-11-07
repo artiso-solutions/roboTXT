@@ -9,6 +9,7 @@ using RoboticsTxt.Lib.Commands;
 using RoboticsTxt.Lib.Components.Communicator;
 using RoboticsTxt.Lib.Contracts;
 using RoboticsTxt.Lib.Contracts.Configuration;
+using RoboticsTxt.Lib.ControllerDriver;
 
 namespace RoboticsTxt.Lib.Components.Sequencer
 {
@@ -35,6 +36,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         /// <param name="ipAddress">IP address of the controller.</param>
         /// <param name="controllerConfiguration">The controller configuration.</param>
         /// <param name="applicationConfiguration">The application configuration.</param>
+        /// <exception cref="CommunicationFailedException">Exception is thrown if no connection is possible</exception>
         public ControllerSequencer(IPAddress ipAddress, ControllerConfiguration controllerConfiguration, ApplicationConfiguration applicationConfiguration)
         {
             logger = LogManager.GetLogger(typeof(ControllerSequencer));
@@ -54,6 +56,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         /// <param name="ipString">String with the IP address or a DNS name for the controller.</param>
         /// <param name="controllerConfiguration">The controller configuration.</param>
         /// <param name="applicationConfiguration">The application configuration.</param>
+        /// <exception cref="CommunicationFailedException">Exception is thrown if no connection is possible</exception>
         public ControllerSequencer(string ipString, ControllerConfiguration controllerConfiguration, ApplicationConfiguration applicationConfiguration) 
             : this(ParseAndResolveIpString(ipString), controllerConfiguration, applicationConfiguration)
         {
