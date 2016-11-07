@@ -21,7 +21,7 @@ namespace TxtControllerLibTests
         }
 
         [TestMethod]
-        public void InvalidMotorConfigurations()
+        public void InvalidMotorConfiguration_NoMotor()
         {
             var configurationWithoutMotor = new MotorConfiguration
             {
@@ -32,6 +32,13 @@ namespace TxtControllerLibTests
                 Limit = 42
             };
 
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutMotor));
+            action.ShouldThrow<ConfigurationValidationException>("Motor is invalid");
+        }
+
+        [TestMethod]
+        public void InvalidMotorConfiguration_NoDirection()
+        {
             var configurationWithoutDirection = new MotorConfiguration
             {
                 Motor = Motor.One,
@@ -41,6 +48,13 @@ namespace TxtControllerLibTests
                 Limit = 42
             };
 
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutDirection));
+            action.ShouldThrow<ConfigurationValidationException>("ReferencingDirection is invalid");
+        }
+
+        [TestMethod]
+        public void InvalidMotorConfiguration_NoReferenceInput()
+        {
             var configurationWithoutInput = new MotorConfiguration
             {
                 Motor = Motor.One,
@@ -50,6 +64,13 @@ namespace TxtControllerLibTests
                 Limit = 42
             };
 
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutInput));
+            action.ShouldThrow<ConfigurationValidationException>("ReferencingInput is invalid");
+        }
+
+        [TestMethod]
+        public void InvalidMotorConfiguration_NoReferencingSpeed()
+        {
             var configurationWithoutSpeed = new MotorConfiguration
             {
                 Motor = Motor.One,
@@ -59,6 +80,13 @@ namespace TxtControllerLibTests
                 Limit = 42
             };
 
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutSpeed));
+            action.ShouldThrow<ConfigurationValidationException>("ReferencingSpeed is invalid");
+        }
+
+        [TestMethod]
+        public void InvalidMotorConfiguration_NoFinePositioningSpeed()
+        {
             var configurationWithoutFinePositioningSpeed = new MotorConfiguration
             {
                 Motor = Motor.One,
@@ -68,6 +96,13 @@ namespace TxtControllerLibTests
                 Limit = 42
             };
 
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutFinePositioningSpeed));
+            action.ShouldThrow<ConfigurationValidationException>("ReferencingFinePositioningSpeed is invalid");
+        }
+
+        [TestMethod]
+        public void InvalidMotorConfiguration_NoLimit()
+        {
             var configurationWithoutLimit = new MotorConfiguration
             {
                 Motor = Motor.One,
@@ -77,22 +112,7 @@ namespace TxtControllerLibTests
                 ReferencingFinePositioningSpeed = Speed.Slow
             };
 
-            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutMotor));
-            action.ShouldThrow<ConfigurationValidationException>("Motor is invalid");
-
-            action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutDirection));
-            action.ShouldThrow<ConfigurationValidationException>("ReferencingDirection is invalid");
-
-            action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutInput));
-            action.ShouldThrow<ConfigurationValidationException>("ReferencingInput is invalid");
-
-            action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutSpeed));
-            action.ShouldThrow<ConfigurationValidationException>("ReferencingSpeed is invalid");
-
-            action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutFinePositioningSpeed));
-            action.ShouldThrow<ConfigurationValidationException>("ReferencingFinePositioningSpeed is invalid");
-
-            action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutLimit));
+            var action = new Action(() => ConfigurationValidator.ValidateMotorConfiguration(configurationWithoutLimit));
             action.ShouldThrow<ConfigurationValidationException>("Limit is invalid");
         }
 
