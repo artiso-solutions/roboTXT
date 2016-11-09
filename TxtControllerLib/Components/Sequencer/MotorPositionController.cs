@@ -198,8 +198,14 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         }
 
         /// <summary>
-        /// Moves the <see cref="Motor"/> specified in the <see cref="MotorConfiguration"/> to the given reference position and zeroes the tracked position.
+        /// References the <see cref="MotorPositionController"/> according to the <see cref="MotorPositionController.MotorConfiguration"/>.
+        /// Moves the Motor in ReferencingDirection with ReferencingSpeed until ReferencingInput reaches the ReferencingInputState. 
+        /// Then Motor moves in the opposite direction with ReferencingFinePositioningSpeed until ReferencingInput leaves ReferencingInputState. 
+        /// After that <see cref="MotorPositionController.CurrentPosition"/> is zeroed.
+        /// Position tracking is disabled during referencing. MotorPositionController has to be referenced before proper usage.
         /// </summary>
+        /// <param name="timeout">Timeout for the referencing operation.</param>
+        /// <returns>true, if successful; false, if unsuccessful</returns>
         public async Task<bool> MoveMotorToReferenceAsync(TimeSpan? timeout = null)
         {
             this.motorDistanceInfo.IsTracking = false;
