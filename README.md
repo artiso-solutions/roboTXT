@@ -18,7 +18,7 @@ PM> Install-Package Robotics.TXT.net
 
 ## Core Components of Robotics TXT .Net Library
 The main component to use is the `ControllerSequencer` which provides some high level functions to 
-operate motors and work with inputs and outputs. Further information can be found in the documentation of this class.
+operate motors and work with inputs and outputs. Further information can be found [here](Usage.md) or in the documentation of this class.
 
 ## Sample Application Manual Robot Controller
 As an example how the Robotics TXT .Net Library can be used there is a sample application included.
