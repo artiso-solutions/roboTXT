@@ -97,8 +97,8 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         /// <summary>
         /// Starts the <see cref="Motor"/> specified in the <see cref="MotorConfiguration"/> of the controller immediately.
         /// </summary>
-        /// <param name="speed">The speed of the motor.</param>
-        /// <param name="direction">The direction to movement.</param>
+        /// <param name="speed">The speed of movement.</param>
+        /// <param name="direction">The direction of movement.</param>
         public async Task StartMotorAsync(Speed speed, Direction direction)
         {
             if (direction == this.MotorConfiguration.ReferencingDirection &&
@@ -111,7 +111,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         }
 
         /// <summary>
-        /// Stops the <see cref="Motor"/> specified in the <see cref="MotorConfiguration"/> of the controller immediately.
+        /// Stops the <see cref="Motor"/> specified in the <see cref="MotorConfiguration"/> of the controller "immediately".
         /// </summary>
         public void StopMotor()
         {
@@ -124,7 +124,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         /// <param name="speed">The speed of the motor.</param>
         /// <param name="direction">The direction to start.</param>
         /// <param name="distance">The distance to run.</param>
-        /// <param name="waitForCompletion"></param>
+        /// <param name="waitForCompletion">Flag determining whether call should return immediately or after completion of the requested movement.</param>
         public async Task StartMotorAndMoveDistanceAsync(Speed speed, Direction direction, short distance,
             bool waitForCompletion = false)
         {
