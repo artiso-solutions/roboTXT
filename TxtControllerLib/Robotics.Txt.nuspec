@@ -9,10 +9,12 @@
         <projectUrl>https://github.com/artiso-solutions/robotics-txt-net</projectUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <licenseUrl>https://github.com/artiso-solutions/robotics-txt-net/blob/develop/LICENSE</licenseUrl>
-        <description>Robotics TXT .Net Library</description>
+        <description>
+          A C# library for network communication with the fischertechnik ROBOTICS TXT controller.
+        </description>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2016</copyright>
-        <tags>Fischertechnik Robotics robo</tags>
+        <tags>fischertechnik fischer technik robotics roboticstxt robo</tags>
         <dependencies>
             <group targetFramework="net46">
                 <dependency id="System.Reactive" version="3.0.0" />
