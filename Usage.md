@@ -1,13 +1,13 @@
 # Controlling Motors
 There are two high level components available for controlling the digital outputs for the motors connected to the Fischertechnik TXT controller
-* [ControllerSequencer]()
-* [MotorPositionController]()
+* [ControllerSequencer](#using-the-controllersequencer)
+* [MotorPositionController](#using-the-motorpositioncontroler)
 
 as well as a few pre defined values like numbered motors and inputs.
 
 # Getting Inputvalues
 There is one high level component for accessing input values present on the Fischertechnik TXT controller
-* [ControllerSequencer]()
+* [ControllerSequencer](#using-the-controllersequencer)
 
 as well as several options to connect inputs with movement operations.
 
@@ -28,7 +28,7 @@ as well as complex operations like
 * async Task StartMotorStopAfterTimeSpanAsync(Motor, Speed, Direction, Timespan)
 * IObservable\<bool> GetDigitalInputStateChanges(DigitalInput)
 
-Also provided is an operation to configure motors with distance counters to be [trackable]().  
+Also provided is an operation to configure motors with distance counters to be [trackable](#using-the-motorpositioncontroler).  
 Using these motors it is possible to [save and load positions]()
 
 ## Using the MotorPositionController
@@ -43,7 +43,7 @@ Calling statechanging operations on a configured motor using the "ControllerSequ
 After successfully configurating a motor the "MotorPositionController" will provide high level movement operations respecting the configured distance limits.
 
 It is also possible to move to specific positions.
-These positions can be [saved and loaded]().
+These positions can be [saved and loaded](#saving-and-loading-positions).
 
 ## Saving and loading positions
 Using the "ControllerSequencer" and configurating motors with distance tracking it is possible to save and load positions.  
