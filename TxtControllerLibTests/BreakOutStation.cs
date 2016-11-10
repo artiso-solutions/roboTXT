@@ -49,7 +49,7 @@ namespace TxtControllerLibTests
             }
         }
 
-        private async Task BreakoutInterface(ControllerSequencer sequencer)
+        private async Task BreakoutInterface(IControllerSequencer sequencer)
         {
             logger.InfoExt("Breakout interface");
             await sequencer.StartMotorStopAfterTimeSpanAsync(Motor.One, Speed.Fast, Direction.Left, TimeSpan.FromMilliseconds(900));

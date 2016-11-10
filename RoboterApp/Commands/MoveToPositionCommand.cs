@@ -7,10 +7,10 @@ namespace RoboterApp.Commands
 {
     public class MoveToPositionCommand : ICommand
     {
-        private readonly ControllerSequencer controllerSequencer;
+        private readonly IControllerSequencer controllerSequencer;
         private readonly MainWindowViewModel mainWindowViewModel;
 
-        public MoveToPositionCommand(ControllerSequencer controllerSequencer, MainWindowViewModel mainWindowViewModel)
+        public MoveToPositionCommand(IControllerSequencer controllerSequencer, MainWindowViewModel mainWindowViewModel)
         {
             this.controllerSequencer = controllerSequencer;
             this.mainWindowViewModel = mainWindowViewModel;

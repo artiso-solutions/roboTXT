@@ -7,10 +7,10 @@ namespace RoboterApp.Commands
 {
     internal class SavePositionCommand : ICommand
     {
-        private readonly ControllerSequencer sequencer;
+        private readonly IControllerSequencer sequencer;
         private readonly ObservableCollection<string> positionNames;
 
-        public SavePositionCommand(ControllerSequencer sequencer, ObservableCollection<string> positionNames)
+        public SavePositionCommand(IControllerSequencer sequencer, ObservableCollection<string> positionNames)
         {
             this.sequencer = sequencer;
             this.positionNames = positionNames;

@@ -7,14 +7,14 @@ namespace RoboterApp.Components
 {
     public class SequenceCommandLogic
     {
-        private readonly ControllerSequencer controllerSequencer;
+        private readonly IControllerSequencer controllerSequencer;
         private readonly MotorPositionController backwardForwardPositionController;
         private readonly MotorPositionController upDownPositionController;
         private readonly MotorPositionController turnLeftRightPositionController;
         private readonly MotorPositionController openCloseClampPositionController;
         private readonly ILog logger;
 
-        public SequenceCommandLogic(ControllerSequencer controllerSequencer,
+        public SequenceCommandLogic(IControllerSequencer controllerSequencer,
                                     MotorPositionController backwardForwardPositionController,
                                     MotorPositionController upDownPositionController,
                                     MotorPositionController turnLeftRightPositionController,
