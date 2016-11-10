@@ -6,7 +6,7 @@ using RoboticsTxt.Lib.Contracts;
 namespace RoboticsTxt.Lib.Components.Sequencer
 {
     /// <summary>
-    /// The <see cref="IControllerSequencer"/> provides high level methods for operation of the Fischertechnik ROBOTICS TXT controller.
+    /// <see cref="IControllerSequencer"/> provides high level methods for operation of the fischertechnik ROBOTICS TXT controller.
     /// This includes the operation of motors and inputs of any kind.
     /// </summary>
     public interface IControllerSequencer : IDisposable
@@ -85,12 +85,22 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         void StopSound();
 
         /// <summary>
-        /// Cleanup of all resrouces. This also stops the communication to the controller.
+        /// Configures and creates a <see cref="MotorPositionController"/> based on a <see cref="MotorConfiguration"/>.
         /// </summary>
-        void Dispose();
-
+        /// <param name="motorConfiguration">The motor configuration.</param>
+        /// <returns></returns>
         MotorPositionController ConfigureMotorPositionController(MotorConfiguration motorConfiguration);
+
+        /// <summary>
+        /// Releases the motor position controller.
+        /// </summary>
+        /// <param name="motorPositionController">The motor position controller.</param>
         void ReleaseMotorPositionController(MotorPositionController motorPositionController);
+
+        /// <summary>
+        /// Gets the position names.
+        /// </summary>
+        /// <returns>A list of position names.</returns>
         List<string> GetPositionNames();
     }
 }

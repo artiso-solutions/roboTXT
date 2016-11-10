@@ -14,7 +14,7 @@ using RoboticsTxt.Lib.ControllerDriver;
 namespace RoboticsTxt.Lib.Components.Sequencer
 {
     /// <summary>
-    /// The <see cref="ControllerSequencer"/> provides high level methods for operation of the Fischertechnik ROBOTICS TXT controller.
+    /// The <see cref="ControllerSequencer"/> provides high level methods for operation of the fischertechnik ROBOTICS TXT controller.
     /// This includes the operation of motors and inputs of any kind.
     /// </summary>
     /// <remarks>
@@ -30,7 +30,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         private List<Position> positions;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ControllerSequencer" /> and starts the communication with the controller. To stop the communication
+        /// Creates a new instance of the <see cref="ControllerCommunicator" /> and starts the communication with the controller. To stop the communication
         /// you have to dispose the <see cref="ControllerSequencer" />.
         /// </summary>
         /// <param name="ipAddress">IP address of the controller.</param>
@@ -50,7 +50,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ControllerSequencer" /> and starts the communication with the controller. To stop the communication
+        /// Creates a new instance of the <see cref="ControllerCommunicator" /> and starts the communication with the controller. To stop the communication
         /// you have to dispose the <see cref="ControllerSequencer" />.
         /// </summary>
         /// <param name="ipString">String with the IP address or a DNS name for the controller.</param>
@@ -75,12 +75,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             controllerCommunicator.Stop();
         }
 
-        /// <summary>
-        /// Starts the specified <paramref name="motor"/> immediately.
-        /// </summary>
-        /// <param name="motor">The motor to start.</param>
-        /// <param name="speed">The speed of the motor.</param>
-        /// <param name="direction">The direction to start.</param>
         public void StartMotor(Motor motor, Speed speed, Direction direction)
         {
             CheckMotorPositionMode(motor);
@@ -88,10 +82,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             controllerCommunicator.QueueCommand(new StartMotorCommand(motor, speed, direction));
         }
 
-        /// <summary>
-        /// Stops the specified <paramref name="motor"/> immediately.
-        /// </summary>
-        /// <param name="motor">The motor to stop.</param>
         public void StopMotor(Motor motor)
         {
             CheckMotorPositionMode(motor);
@@ -99,15 +89,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             controllerCommunicator.QueueCommand(new StopMotorCommand(motor));
         }
 
-        /// <summary>
-        /// Starts the specified <paramref name="motor"/> and stops it on state trigger of the specified <paramref name="digitalInput"/>.
-        /// </summary>
-        /// <param name="motor">The motor to start.</param>
-        /// <param name="speed">The speed of the motor.</param>
-        /// <param name="direction">The direction to start.</param>
-        /// <param name="digitalInput">The digital input to trigger the stop.</param>
-        /// <param name="expectedInputState">The expected value for the state trigger.</param>
-        /// <returns>This method is async. The returned task will be completed as soon as the movement is finished.</returns>
         public async Task<bool> StartMotorStopWithDigitalInputAsync(Motor motor, Speed speed, Direction direction, DigitalInput digitalInput, bool expectedInputState, TimeSpan? timeout = null)
         {
             CheckMotorPositionMode(motor);
@@ -124,14 +105,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             return reachedInput;
         }
 
-        /// <summary>
-        /// Starts the specified <paramref name="motor"/> and stops it after the given time span <paramref name="stopAfterTimeSpan"/>.
-        /// </summary>
-        /// <param name="motor">The motor to start.</param>
-        /// <param name="speed">The speed of the motor.</param>
-        /// <param name="direction">The direction to start.</param>
-        /// <param name="stopAfterTimeSpan">The time span which is used to stop the motor again.</param>
-        /// <returns>This method is async. The returned task will be completed as soon as the movement is finished.</returns>
         public async Task StartMotorStopAfterTimeSpanAsync(Motor motor, Speed speed, Direction direction, TimeSpan stopAfterTimeSpan)
         {
             CheckMotorPositionMode(motor);
@@ -146,30 +119,16 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             controllerCommunicator.QueueCommand(new StopMotorCommand(motor));
         }
 
-        /// <summary>
-        /// Retrieves the current input state of the specified <paramref name="referenceInput"/>.
-        /// </summary>
-        /// <param name="referenceInput">The digital input to get the state from.</param>
-        /// <returns><c>true</c> if the input is triggered, otherwise <c>false</c>.</returns>
         public bool GetDigitalInputState(DigitalInput referenceInput)
         {
             return controllerCommunicator.UniversalInputs[(int)referenceInput].CurrentState;
         }
 
-        /// <summary>
-        /// Gets the event stream for changes of the state of digital inputs. This can be used to observe the current state or react on state changes.
-        /// </summary>
-        /// <param name="digitalInput">The digital input to get the stream of changes.</param>
-        /// <returns>Observable stream of events representing the current state of the digital input.</returns>
         public IObservable<bool> GetDigitalInputStateChanges(DigitalInput digitalInput)
         {
             return controllerCommunicator.UniversalInputs[(int)digitalInput].StateChanges;
         }
 
-        /// <summary>
-        /// Saves the current position of all saveable <see cref="MotorPositionController"/>s.
-        /// </summary>
-        /// <param name="positionName">Name of the position to be saved.</param>
         public void SaveCurrentPosition(string positionName)
         {
             var position = positions.FirstOrDefault(p => p.PositionName == positionName);
@@ -202,10 +161,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             positionStorageAccessor.WritePositionsToFile(positions);
         }
 
-        /// <summary>
-        /// Moves all <see cref="MotorPositionController"/>s to the positions given in the position.
-        /// </summary>
-        /// <param name="positionName">Name of the position to be applied.</param>
         public async Task MoveToPositionAsync(string positionName)
         {
             var position = positions.FirstOrDefault(p => p.PositionName == positionName);
@@ -222,19 +177,11 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             }
         }
 
-        /// <summary>
-        /// Plays a sound.
-        /// </summary>
-        /// <param name="sound">Sound to play.</param>
-        /// <param name="repetitions">Number of times to play the sound. 0 means indefinite.</param>
         public void PlaySound(Sound sound, ushort repetitions)
         {
             controllerCommunicator.QueueCommand(new PlaySoundCommand(sound, repetitions));
         }
 
-        /// <summary>
-        /// Stops the current sound.
-        /// </summary>
         public void StopSound()
         {
             controllerCommunicator.QueueCommand(new PlaySoundCommand(Sound.None, 0));
