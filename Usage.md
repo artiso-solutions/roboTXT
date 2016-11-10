@@ -18,7 +18,7 @@ In order to establish a connection to the hardware first instantiate the "Contro
 The constructor accepts an ip address or a resolvable hostname.  
 Disposing the instance will close the connection.
 
-After instatiating, the sequencer provides basic high level operations like
+After instantiating, the sequencer provides basic high level operations like
 * void StartMotor(Motor, Speed, Direction)
 * void StopMotor(Motor)
 * bool GetDigitalInputState(DigitalInput)
@@ -34,7 +34,7 @@ Using these motors it is possible to [save and load positions](#saving-and-loadi
 ## Using the MotorPositionController
 This component is only for motors with an associated distance counter.
 
-It cannot be directly instatiated using the constructor.  
+It cannot be directly instantiated using the constructor.  
 Instead use "ConfigureMotorPositionController" on an active "ControllerSequencer" to configure a motor to use position tracking.  
 In order to configure a motor a "MotorConfiguration" must be provided.
 
