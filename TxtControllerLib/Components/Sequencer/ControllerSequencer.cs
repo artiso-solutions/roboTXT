@@ -170,7 +170,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             {
                 foreach (var motorPositionInfo in position.MotorPositionInfos)
                 {
-                    positioningTasks.Add(motorPositionControllers[motorPositionInfo.Motor].MoveMotorToPositionAsync(motorPositionInfo));
+                    positioningTasks.Add(motorPositionControllers[motorPositionInfo.Motor].MoveMotorToPositionAsync(motorPositionInfo.Position));
                 }
 
                 await Task.WhenAll(positioningTasks);

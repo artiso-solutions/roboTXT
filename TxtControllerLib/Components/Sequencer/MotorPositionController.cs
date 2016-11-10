@@ -161,14 +161,19 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         }
 
         /// <summary>
-        /// Moves the <see cref="Motor"/> specified in the <see cref="MotorConfiguration"/> to the given <see cref="MotorPositionInfo"/>.
+        /// Moves the <see cref="Motor" /> specified in the <see cref="MotorConfiguration" /> to the given position.
         /// </summary>
-        /// <param name="motorPositionInfo">Target position.</param>
-        public async Task MoveMotorToPositionAsync([NotNull] MotorPositionInfo motorPositionInfo)
+        /// <param name="targetPosition">The position to move to.</param>
+        /// <returns></returns>
+        /// <exception cref="System.InvalidOperationException">
+        /// If an invalid position is provided.
+        /// </exception>
+        public async Task MoveMotorToPositionAsync(int targetPosition)
         {
-            if (motorPositionInfo == null) throw new ArgumentNullException(nameof(motorPositionInfo));
-
-            var targetPosition = motorPositionInfo.Position;
+            if (targetPosition < 0)
+            {
+                throw new InvalidOperationException("Negative positions not supported");
+            }
 
             if (targetPosition > this.MotorConfiguration.Limit)
             {
@@ -192,7 +197,6 @@ namespace RoboticsTxt.Lib.Components.Sequencer
 
             var direction = distanceToPosition > 0 ? positiveMovement : negativeMovement;
             distanceToPosition = Math.Abs(distanceToPosition);
-
 
             await this.StartMotorAndMoveDistanceAsync(Speed.Maximal, direction, (short) distanceToPosition, true);
         }

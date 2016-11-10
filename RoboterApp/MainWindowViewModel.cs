@@ -29,6 +29,7 @@ namespace RoboterApp
                 Motor = Motor.Two,
                 ReferencingDirection = Direction.Left,
                 ReferencingSpeed = Speed.Maximal,
+                ReferencingFinePositioningSpeed = Speed.Slow,
                 ReferencingInput = DigitalInput.Two,
                 ReferencingInputState = false,
                 Limit = 700
@@ -41,6 +42,7 @@ namespace RoboterApp
                 Motor = Motor.Three,
                 ReferencingDirection = Direction.Left,
                 ReferencingSpeed = Speed.Fast,
+                ReferencingFinePositioningSpeed = Speed.Slow,
                 ReferencingInput = DigitalInput.Three,
                 ReferencingInputState = false,
                 Limit = 2000
@@ -53,6 +55,7 @@ namespace RoboterApp
                 Motor = Motor.One,
                 ReferencingDirection = Direction.Right,
                 ReferencingSpeed = Speed.Average,
+                ReferencingFinePositioningSpeed = Speed.Slow,
                 ReferencingInput = DigitalInput.One,
                 ReferencingInputState = false,
                 Limit = 2200
@@ -65,6 +68,7 @@ namespace RoboterApp
                 Motor = Motor.Four,
                 ReferencingDirection = Direction.Left,
                 ReferencingSpeed = Speed.Quick,
+                ReferencingFinePositioningSpeed = Speed.Slow,
                 ReferencingInput = DigitalInput.Four,
                 ReferencingInputState = false,
                 Limit = 15,
