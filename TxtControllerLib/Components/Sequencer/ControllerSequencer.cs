@@ -30,7 +30,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         private List<Position> positions;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ControllerCommunicator" /> and starts the communication with the controller. To stop the communication
+        /// Creates the <see cref="ControllerCommunicator" />, loads the stored positions and starts the communication with the controller. To stop the communication
         /// you have to dispose the <see cref="ControllerSequencer" />.
         /// </summary>
         /// <param name="ipAddress">IP address of the controller.</param>
@@ -50,7 +50,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ControllerCommunicator" /> and starts the communication with the controller. To stop the communication
+        /// Creates the <see cref="ControllerCommunicator" />, loads the stored positions and starts the communication with the controller. To stop the communication
         /// you have to dispose the <see cref="ControllerSequencer" />.
         /// </summary>
         /// <param name="ipString">String with the IP address or a DNS name for the controller.</param>
