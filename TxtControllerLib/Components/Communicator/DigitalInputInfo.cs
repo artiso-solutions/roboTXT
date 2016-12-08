@@ -33,11 +33,8 @@ namespace RoboticsTxt.Lib.Components.Communicator
                 return;
 
             this.CurrentState = newState;
-            Task.Run(() =>
-            {
-                this.stateChangesSubject.OnNext(newState);
-                this.logger.Debug($"I{this.DigitalInput}: state changed to {newState}");
-            });
+            this.logger.Debug($"I{this.DigitalInput}: state changed to {newState}");
+            Task.Run(() => this.stateChangesSubject.OnNext(newState));
         }
     }
 }
