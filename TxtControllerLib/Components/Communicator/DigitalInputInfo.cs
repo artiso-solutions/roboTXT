@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using log4net;
 using RoboticsTxt.Lib.Contracts;
 
@@ -32,9 +33,11 @@ namespace RoboticsTxt.Lib.Components.Communicator
                 return;
 
             this.CurrentState = newState;
-            this.stateChangesSubject.OnNext(newState);
-
-            this.logger.Debug($"I{this.DigitalInput}: state changed to {newState}");
+            Task.Run(() =>
+            {
+                this.stateChangesSubject.OnNext(newState);
+                this.logger.Debug($"I{this.DigitalInput}: state changed to {newState}");
+            });
         }
     }
 }

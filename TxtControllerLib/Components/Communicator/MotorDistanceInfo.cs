@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using log4net;
 using RoboticsTxt.Lib.Contracts;
 
@@ -56,7 +57,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
             logger.Debug($"Motor {Motor}: d={distanceValue:000} | diff={difference:000}");
 
             currentDistanceValue = distanceValue;
-            this.distanceDifferencesSubject.OnNext(difference);
+            Task.Run(() => this.distanceDifferencesSubject.OnNext(difference));
         }
 
         public void SetCurrentCommandId(short commandId)
@@ -65,7 +66,8 @@ namespace RoboticsTxt.Lib.Components.Communicator
                 return;
 
             currentCommandId = commandId;
-            commandIdChangesSubject.OnNext(commandId);
+
+            Task.Run(() => commandIdChangesSubject.OnNext(commandId));
 
             this.logger.Debug($"Motor {Motor}: commandId changed to {commandId}");
         }

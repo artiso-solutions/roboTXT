@@ -74,7 +74,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
                     OnPropertyChanged(nameof(CurrentPosition));
                 }
 
-                this.positionChangesSubject.OnNext(this.currentPosition);
+                Task.Run(() => this.positionChangesSubject.OnNext(this.currentPosition));
             });
 
             this.controllerCommunicator.UniversalInputs[(int) motorConfiguration.ReferencingInput].StateChanges
