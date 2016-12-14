@@ -18,6 +18,7 @@ namespace RoboterApp
         private readonly SequenceCommandLogic sequenceCommandLogic;
 
         private string positionName;
+        private TimeSpan currentCommunicationLoopCycleTime;
 
         public MainWindowViewModel()
         {
@@ -85,6 +86,13 @@ namespace RoboterApp
             StartSequenceCommand = new StartSequenceCommand(this.sequenceCommandLogic);
 
             AlarmSoundCommand = new AlarmSoundCommand(controllerSequencer);
+
+            controllerSequencer.GetCommunicationLoopCyleTimeChanges().Subscribe(OnCommunicationLoopCycleTimeUpdate);
+        }
+
+        private void OnCommunicationLoopCycleTimeUpdate(TimeSpan timeSpan)
+        {
+            CurrentCommunicationLoopCycleTime = timeSpan;
         }
 
         public MotorPositionController OpenCloseClampPositionController { get; }
@@ -127,6 +135,16 @@ namespace RoboterApp
 
         public ObservableCollection<string> PositionNames { get; }
 
+        public TimeSpan CurrentCommunicationLoopCycleTime
+        {
+            get { return currentCommunicationLoopCycleTime; }
+            private set
+            {
+                if (value.Equals(currentCommunicationLoopCycleTime)) return;
+                currentCommunicationLoopCycleTime = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

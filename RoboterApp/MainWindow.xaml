@@ -40,17 +40,21 @@
         <Style TargetType="{x:Type controls:MovementButton}">
             <Setter Property="Background">
                 <Setter.Value>
-                    <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
-                        <GradientStop Offset="0.45" Color="#CC8AFF90" />
+                    <LinearGradientBrush StartPoint="0 0"
+                                         EndPoint="0 1">
+                        <GradientStop Offset="0.45"
+                                      Color="#CC8AFF90" />
 
-                        <GradientStop Offset="0.55" Color="#CCFF4545" />
+                        <GradientStop Offset="0.55"
+                                      Color="#CCFF4545" />
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:MovementButton}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="5">
                             <Path Width="26"
                                   Height="26"
                                   Margin="2"
@@ -102,7 +106,8 @@
                     CommandParameter="{Binding PositionName}"
                     Content="Save Position" />
 
-            <ItemsControl Margin="10" ItemsSource="{Binding PositionNames}">
+            <ItemsControl Margin="10"
+                          ItemsSource="{Binding PositionNames}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />
@@ -136,19 +141,35 @@
                                          Grid.Column="0"
                                          Width="50"
                                          Height="50"
-                                         Margin="0,0,10,0"/>
+                                         Margin="0,0,10,0" />
 
-                <TextBlock Grid.Row="0" Grid.Column="1">
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1">
                     moves a few steps
                 </TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="1">
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1">
                     moves while clicking
                 </TextBlock>
             </Grid>
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0">
+                    Cycle Time :
+                </TextBlock>
+                <TextBlock Grid.Column="2" 
+                           Text="{Binding CurrentCommunicationLoopCycleTime}"/>
+            </Grid>
         </StackPanel>
 
-        <Viewbox Grid.Column="1" Margin="10">
-            <Canvas Width="500" Height="300">
+        <Viewbox Grid.Column="1"
+                 Margin="10">
+            <Canvas Width="500"
+                    Height="300">
                 <Canvas.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Resources/Robo.jpg" />
                 </Canvas.Background>
@@ -160,7 +181,6 @@
                                          Canvas.Top="60"
                                          Content="{StaticResource Forward}"
                                          MoveAxisCommand="{Binding MoveForwardCommand}" />
-
 
                 <controls:MovementButton Canvas.Left="190"
                                          Canvas.Top="5"
