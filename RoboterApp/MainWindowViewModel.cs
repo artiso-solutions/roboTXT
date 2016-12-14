@@ -19,6 +19,7 @@ namespace RoboterApp
 
         private string positionName;
         private TimeSpan currentCommunicationLoopCycleTime;
+        private Exception lastCommunicationLoopException;
 
         public MainWindowViewModel()
         {
@@ -88,6 +89,12 @@ namespace RoboterApp
             AlarmSoundCommand = new AlarmSoundCommand(controllerSequencer);
 
             controllerSequencer.GetCommunicationLoopCyleTimeChanges().Subscribe(OnCommunicationLoopCycleTimeUpdate);
+            controllerSequencer.GetCommunicationExceptions().Subscribe(OnCommunicationLoopExcpetion);
+        }
+
+        private void OnCommunicationLoopExcpetion(Exception exception)
+        {
+            LastCommunicationLoopException = exception;
         }
 
         private void OnCommunicationLoopCycleTimeUpdate(TimeSpan timeSpan)
@@ -142,6 +149,17 @@ namespace RoboterApp
             {
                 if (value.Equals(currentCommunicationLoopCycleTime)) return;
                 currentCommunicationLoopCycleTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Exception LastCommunicationLoopException
+        {
+            get { return lastCommunicationLoopException; }
+            private set
+            {
+                if (Equals(value, lastCommunicationLoopException)) return;
+                lastCommunicationLoopException = value;
                 OnPropertyChanged();
             }
         }
