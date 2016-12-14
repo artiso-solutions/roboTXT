@@ -40,10 +40,10 @@ namespace RoboticsTxt.Lib.Components.Communicator
             this.responseProcessor = new ResponseProcessor();
 
             this.commandQueue = new ConcurrentQueue<IControllerCommand>();
-            
+
             this.UniversalInputs = Enum.GetValues(typeof(DigitalInput)).OfType<DigitalInput>().Select(d => new DigitalInputInfo(d)).ToArray();
             this.MotorDistanceInfos = Enum.GetValues(typeof(Motor)).OfType<Motor>().Select(m => new MotorDistanceInfo(m)).ToArray();
-
+            this.CommunicationInfo = new CommunicationInfo();
         }
 
         public void Start()
@@ -86,6 +86,8 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
         public MotorDistanceInfo[] MotorDistanceInfos { get; }
 
+        public CommunicationInfo CommunicationInfo { get; }
+
         private async Task CommunicationLoop(CancellationToken cancellationToken)
         {
             try
@@ -117,8 +119,15 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
                 var delayTimeSpan = this.controllerConfiguration.CommunicationCycleTime;
 
+                DateTime lastCycleStartTime;
+                DateTime currentCycleStartTime = DateTime.Now;
                 while (!cancellationToken.IsCancellationRequested || !this.commandQueue.IsEmpty)
                 {
+                    lastCycleStartTime = currentCycleStartTime;
+                    currentCycleStartTime = DateTime.Now;
+                    var cycleRunTime = currentCycleStartTime - lastCycleStartTime;
+                    CommunicationInfo.UpdateCommunicationLoopCycleTime(cycleRunTime);
+
                     IControllerCommand command;
                     while (this.commandQueue.TryDequeue(out command))
                     {
@@ -129,7 +138,8 @@ namespace RoboticsTxt.Lib.Components.Communicator
                         }
                         catch (Exception exception)
                         {
-                            this.logger.Error(exception);
+                            this.logger.Error("Failed to execute command", exception);
+                            CommunicationInfo.UpdateCommunicationLoopExceptions(exception);
                         }
                     }
 
@@ -141,6 +151,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
                     catch (Exception exception)
                     {
                         logger.Error("Failed to send request", exception);
+                        CommunicationInfo.UpdateCommunicationLoopExceptions(exception);
                         continue;
                     }
 
@@ -151,6 +162,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
                     catch (Exception exception)
                     {
                         logger.Error("Failed to process response", exception);
+                        CommunicationInfo.UpdateCommunicationLoopExceptions(exception);
                         continue;
                     }
 

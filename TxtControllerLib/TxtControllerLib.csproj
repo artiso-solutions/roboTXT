@@ -80,6 +80,7 @@
     <Compile Include="Commands\StartMotorCommand.cs" />
     <Compile Include="Commands\StopMotorCommand.cs" />
     <Compile Include="Components\Communicator\CommandProcessor.cs" />
+    <Compile Include="Components\Communicator\CommunicationInfo.cs" />
     <Compile Include="Components\Communicator\ControllerCommunicator.cs" />
     <Compile Include="Components\Communicator\MotorDistanceInfo.cs" />
     <Compile Include="Components\Sequencer\ControllerSequencer.cs" />
