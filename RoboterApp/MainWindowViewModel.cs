@@ -14,7 +14,7 @@ namespace RoboterApp
 {
     public class MainWindowViewModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly ControllerSequencer controllerSequencer;
+        private readonly IControllerSequencer controllerSequencer;
         private readonly SequenceCommandLogic sequenceCommandLogic;
 
         private string positionName;
