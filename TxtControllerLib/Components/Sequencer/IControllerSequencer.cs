@@ -54,11 +54,43 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         bool GetDigitalInputState(DigitalInput referenceInput);
 
         /// <summary>
+        /// Gets a value indicating whether the sequencer is currently connected to the controller.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the sequencer is currently connected to the controller; otherwise, <c>false</c>.
+        /// </value>
+        bool CurrentlyConnectedToController { get; }
+
+        /// <summary>
         /// Gets the event stream for changes of the state of digital inputs. This can be used to observe the current state or react on state changes.
         /// </summary>
         /// <param name="digitalInput">The digital input to get the stream of changes.</param>
         /// <returns>Observable stream of events representing the current state of the digital input.</returns>
         IObservable<bool> GetDigitalInputStateChanges(DigitalInput digitalInput);
+
+        /// <summary>
+        /// Gets the event stream for changes of the communication loop times. This can be used to observe the current state or react on state changes.
+        /// </summary>
+        /// <value>
+        /// Observable stream of events representing the communication loop times.
+        /// </value>
+        IObservable<TimeSpan> CommunicationLoopCyleTimeChanges { get; }
+
+        /// <summary>
+        /// Gets the event stream of all exceptions thrown in the communication loop. This can be used to observe the current state of the loop.
+        /// </summary>
+        /// <value>
+        /// Observable stream of events representing the exceptions.
+        /// </value>
+        IObservable<Exception> CommunicationExceptions { get; }
+
+        /// <summary>
+        /// Gets the event stream for changes of the controller connection. This can be used to observe the current state or react on state changes.
+        /// </summary>
+        /// <value>
+        /// Observable stream of events representing the controller connection state.
+        /// </value>
+        IObservable<bool> ControllerConnectionStateChanges { get; }
 
         /// <summary>
         /// Saves the current position of all saveable <see cref="MotorPositionController"/>s.
