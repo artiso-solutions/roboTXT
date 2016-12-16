@@ -129,15 +129,9 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             return controllerCommunicator.UniversalInputs[(int)digitalInput].StateChanges;
         }
 
-        public IObservable<TimeSpan> GetCommunicationLoopCyleTimeChanges()
-        {
-            return controllerCommunicator.CommunicationInfo.CommunicationLoopCycleTimeChanges;
-        }
+        public IObservable<TimeSpan> CommunicationLoopCyleTimeChanges => controllerCommunicator.CommunicationInfo.CommunicationLoopCycleTimeChanges;
 
-        public IObservable<Exception> GetCommunicationExceptions()
-        {
-            return controllerCommunicator.CommunicationInfo.CommunicationLoopExceptions;
-        }
+        public IObservable<Exception> CommunicationExceptions => controllerCommunicator.CommunicationInfo.CommunicationLoopExceptions;
 
         public void SaveCurrentPosition(string positionName)
         {

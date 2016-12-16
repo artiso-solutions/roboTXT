@@ -88,8 +88,8 @@ namespace RoboterApp
 
             AlarmSoundCommand = new AlarmSoundCommand(controllerSequencer);
 
-            controllerSequencer.GetCommunicationLoopCyleTimeChanges().Subscribe(OnCommunicationLoopCycleTimeUpdate);
-            controllerSequencer.GetCommunicationExceptions().Subscribe(OnCommunicationLoopExcpetion);
+            controllerSequencer.CommunicationLoopCyleTimeChanges.Subscribe(OnCommunicationLoopCycleTimeUpdate);
+            controllerSequencer.CommunicationExceptions.Subscribe(OnCommunicationLoopExcpetion);
         }
 
         private void OnCommunicationLoopExcpetion(Exception exception)
