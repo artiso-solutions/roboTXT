@@ -152,9 +152,12 @@ namespace RoboticsTxt.Lib.Components.Communicator
                     catch (Exception exception)
                     {
                         logger.Error("Failed to send request", exception);
+                        CommunicationInfo.UpdateControllerConnectionState(false);
                         CommunicationInfo.UpdateCommunicationLoopExceptions(exception);
                         continue;
                     }
+
+                    CommunicationInfo.UpdateControllerConnectionState(true);
 
                     try
                     {

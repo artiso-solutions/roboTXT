@@ -124,6 +124,8 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             return controllerCommunicator.UniversalInputs[(int)referenceInput].CurrentState;
         }
 
+        public bool CurrentlyConnectedToController => controllerCommunicator.CommunicationInfo.ConnectedToController;
+
         public IObservable<bool> GetDigitalInputStateChanges(DigitalInput digitalInput)
         {
             return controllerCommunicator.UniversalInputs[(int)digitalInput].StateChanges;
@@ -132,6 +134,8 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         public IObservable<TimeSpan> CommunicationLoopCyleTimeChanges => controllerCommunicator.CommunicationInfo.CommunicationLoopCycleTimeChanges;
 
         public IObservable<Exception> CommunicationExceptions => controllerCommunicator.CommunicationInfo.CommunicationLoopExceptions;
+
+        public IObservable<bool> ControllerConnectionStateChanges => controllerCommunicator.CommunicationInfo.ControllerConnectionStateChanges;
 
         public void SaveCurrentPosition(string positionName)
         {
