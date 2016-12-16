@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using RoboticsTxt.Lib.ControllerDriver;
+using RoboticsTxt.Lib.Contracts.Exceptions;
 
 namespace RoboticsTxt.Lib.Messages.Base
 {

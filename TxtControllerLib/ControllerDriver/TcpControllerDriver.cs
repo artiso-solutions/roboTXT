@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using JetBrains.Annotations;
 using log4net;
+using RoboticsTxt.Lib.Contracts.Exceptions;
 using RoboticsTxt.Lib.Messages.Base;
 
 namespace RoboticsTxt.Lib.ControllerDriver

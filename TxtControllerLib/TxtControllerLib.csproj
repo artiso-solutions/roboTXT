@@ -113,7 +113,7 @@
     <Compile Include="Messages\ExchangeDataCommandMessage.cs" />
     <Compile Include="Messages\ExchangeDataResponseMessage.cs" />
     <Compile Include="Messages\Base\CommandMessage.cs" />
-    <Compile Include="ControllerDriver\CommunicationFailedException.cs" />
+    <Compile Include="Contracts\Exceptions\CommunicationFailedException.cs" />
     <Compile Include="Messages\Base\CommandMessageExtensions.cs" />
     <Compile Include="Messages\Base\ControllerMessage.cs" />
     <Compile Include="Messages\Base\DeserializationContext.cs" />

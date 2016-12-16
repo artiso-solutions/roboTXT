@@ -9,6 +9,7 @@ using log4net;
 using log4net.Util;
 using RoboticsTxt.Lib.Contracts;
 using RoboticsTxt.Lib.Contracts.Configuration;
+using RoboticsTxt.Lib.Contracts.Exceptions;
 using RoboticsTxt.Lib.ControllerDriver;
 using RoboticsTxt.Lib.Interfaces;
 using RoboticsTxt.Lib.Messages;

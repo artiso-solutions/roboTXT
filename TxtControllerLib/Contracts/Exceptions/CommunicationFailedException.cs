@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace RoboticsTxt.Lib.ControllerDriver
+namespace RoboticsTxt.Lib.Contracts.Exceptions
 {
     internal class CommunicationFailedException : Exception
     {
