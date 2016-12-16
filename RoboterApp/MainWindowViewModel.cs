@@ -20,6 +20,7 @@ namespace RoboterApp
         private string positionName;
         private TimeSpan currentCommunicationLoopCycleTime;
         private Exception lastCommunicationLoopException;
+        private bool currentControllerConnectionState;
 
         public MainWindowViewModel()
         {
@@ -90,6 +91,13 @@ namespace RoboterApp
 
             controllerSequencer.CommunicationLoopCyleTimeChanges.Subscribe(OnCommunicationLoopCycleTimeUpdate);
             controllerSequencer.CommunicationExceptions.Subscribe(OnCommunicationLoopExcpetion);
+            controllerSequencer.ControllerConnectionStateChanges.Subscribe(OnControllerConnectionStateChanged);
+            CurrentControllerConnectionState = controllerSequencer.CurrentlyConnectedToController;
+        }
+
+        private void OnControllerConnectionStateChanged(bool newConnectionState)
+        {
+            CurrentControllerConnectionState = newConnectionState;
         }
 
         private void OnCommunicationLoopExcpetion(Exception exception)
@@ -160,6 +168,17 @@ namespace RoboterApp
             {
                 if (Equals(value, lastCommunicationLoopException)) return;
                 lastCommunicationLoopException = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CurrentControllerConnectionState
+        {
+            get { return currentControllerConnectionState; }
+            private set
+            {
+                if (value == currentControllerConnectionState) return;
+                currentControllerConnectionState = value;
                 OnPropertyChanged();
             }
         }

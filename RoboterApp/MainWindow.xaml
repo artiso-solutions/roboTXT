@@ -180,6 +180,18 @@
                            TextWrapping="WrapWithOverflow"
                            Text="{Binding LastCommunicationLoopException.Message}" />
             </Grid>
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0">
+                    Connected :
+                </TextBlock>
+                <TextBlock Grid.Column="2"
+                           Text="{Binding CurrentControllerConnectionState}" />
+            </Grid>
         </StackPanel>
 
         <Viewbox Grid.Column="1"
