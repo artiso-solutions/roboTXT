@@ -155,7 +155,7 @@ namespace RoboterApp
             get { return currentCommunicationLoopCycleTime; }
             private set
             {
-                if (value.Equals(currentCommunicationLoopCycleTime)) return;
+                if (value == currentCommunicationLoopCycleTime) return;
                 currentCommunicationLoopCycleTime = value;
                 OnPropertyChanged();
             }
@@ -166,7 +166,7 @@ namespace RoboterApp
             get { return lastCommunicationLoopException; }
             private set
             {
-                if (Equals(value, lastCommunicationLoopException)) return;
+                if (value == lastCommunicationLoopException) return;
                 lastCommunicationLoopException = value;
                 OnPropertyChanged();
             }
