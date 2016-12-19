@@ -92,7 +92,13 @@ namespace RoboterApp
             controllerSequencer.CommunicationLoopCyleTimeChanges.Subscribe(OnCommunicationLoopCycleTimeUpdate);
             controllerSequencer.CommunicationExceptions.Subscribe(OnCommunicationLoopExcpetion);
             controllerSequencer.ControllerConnectionStateChanges.Subscribe(OnControllerConnectionStateChanged);
+            controllerSequencer.CommunicationLoopBlockingEvents.Subscribe(OnCommunicationLoopBlocked);
             CurrentControllerConnectionState = controllerSequencer.CurrentlyConnectedToController;
+        }
+
+        private void OnCommunicationLoopBlocked(object parameter)
+        {
+            throw new InvalidOperationException("The communication loop is blocked");
         }
 
         private void OnControllerConnectionStateChanged(bool newConnectionState)
