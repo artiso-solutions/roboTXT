@@ -124,6 +124,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
                 DateTime currentCycleStartTime = DateTime.Now;
                 while (!cancellationToken.IsCancellationRequested || !this.commandQueue.IsEmpty)
                 {
+                    CommunicationInfo.UpdateLoopReactions();
                     lastCycleStartTime = currentCycleStartTime;
                     currentCycleStartTime = DateTime.Now;
                     var cycleRunTime = currentCycleStartTime - lastCycleStartTime;

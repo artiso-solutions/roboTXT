@@ -13,11 +13,14 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
         private readonly Subject<bool> controllerConnectionSubject;
 
+        private readonly Subject<object> loopReactionSubject;
+
         public CommunicationInfo()
         {
             communicationLoopTimeSubject = new Subject<TimeSpan>();
             communicationLoopExceptionSubject = new Subject<Exception>();
             controllerConnectionSubject = new Subject<bool>();
+            loopReactionSubject = new Subject<object>();
 
             LastCycleRunTime = TimeSpan.Zero;
             ConnectedToController = false;
@@ -32,6 +35,8 @@ namespace RoboticsTxt.Lib.Components.Communicator
         public IObservable<Exception> CommunicationLoopExceptions => communicationLoopExceptionSubject.AsObservable();
 
         public IObservable<bool> ControllerConnectionStateChanges => controllerConnectionSubject.AsObservable();
+
+        public IObservable<object> LoopReactionEvents => loopReactionSubject.AsObservable();
 
         public void UpdateCommunicationLoopCycleTime(TimeSpan cycleRunTime)
         {
@@ -58,6 +63,11 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
             ConnectedToController = newConnectionState;
             Task.Run(() => controllerConnectionSubject.OnNext(newConnectionState));
+        }
+
+        public void UpdateLoopReactions()
+        {
+            Task.Run(() => loopReactionSubject.OnNext(null));
         }
     }
 }
