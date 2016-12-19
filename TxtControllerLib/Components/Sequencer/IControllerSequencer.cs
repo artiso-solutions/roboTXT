@@ -93,6 +93,14 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         IObservable<bool> ControllerConnectionStateChanges { get; }
 
         /// <summary>
+        /// Gets the event stream of all blocks in the communication loop. This can be used to observe the current state of the loop.
+        /// </summary>
+        /// <value>
+        /// Observable stream of events representing blocks.
+        /// </value>
+        IObservable<object> CommunicationLoopBlockingEvents { get; }
+
+        /// <summary>
         /// Saves the current position of all saveable <see cref="MotorPositionController"/>s.
         /// </summary>
         /// <param name="positionName">Name of the position to be saved.</param>

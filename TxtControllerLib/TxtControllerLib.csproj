@@ -83,6 +83,7 @@
     <Compile Include="Components\Communicator\CommunicationInfo.cs" />
     <Compile Include="Components\Communicator\ControllerCommunicator.cs" />
     <Compile Include="Components\Communicator\MotorDistanceInfo.cs" />
+    <Compile Include="Components\Sequencer\CommunicationLoopWatchDog.cs" />
     <Compile Include="Components\Sequencer\ControllerSequencer.cs" />
     <Compile Include="Components\Communicator\DigitalInputInfo.cs" />
     <Compile Include="Components\Sequencer\IControllerSequencer.cs" />
