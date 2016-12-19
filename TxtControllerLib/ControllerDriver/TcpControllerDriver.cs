@@ -34,6 +34,8 @@ namespace RoboticsTxt.Lib.ControllerDriver
         public void StartCommunication()
         {
             this.socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            this.socket.SendTimeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
+            this.socket.ReceiveTimeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
             this.socket.Connect(this.ipAddress, 65000);
         }
 
@@ -86,6 +88,7 @@ namespace RoboticsTxt.Lib.ControllerDriver
             }
 
             var cmdBytes = this.GetBytesOfMessage(command);
+
             this.socket.Send(cmdBytes);
 
             using (var receiveStream = new MemoryStream())

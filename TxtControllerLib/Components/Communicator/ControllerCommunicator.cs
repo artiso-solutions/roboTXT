@@ -151,7 +151,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
                     }
                     catch (Exception exception)
                     {
-                        logger.Error("Failed to send request", exception);
+                        logger.Error("Failed to send request to controller", exception);
                         CommunicationInfo.UpdateControllerConnectionState(false);
                         CommunicationInfo.UpdateCommunicationLoopExceptions(exception);
                         continue;
