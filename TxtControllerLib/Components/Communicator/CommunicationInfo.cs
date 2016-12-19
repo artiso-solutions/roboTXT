@@ -35,7 +35,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
         public void UpdateCommunicationLoopCycleTime(TimeSpan cycleRunTime)
         {
-            if ((cycleRunTime - LastCycleRunTime).Duration() < TimeSpan.FromMilliseconds(5))
+            if ((cycleRunTime - LastCycleRunTime).Duration() < TimeSpan.FromMilliseconds(20))
             {
                 return;
             }
