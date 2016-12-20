@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using log4net;
 using RoboticsTxt.Lib.Contracts.Exceptions;
@@ -36,7 +38,15 @@ namespace RoboticsTxt.Lib.ControllerDriver
             this.socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
             this.socket.SendTimeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
             this.socket.ReceiveTimeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
-            this.socket.Connect(this.ipAddress, 65000);
+            try
+            {
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                Task.Run(() => this.socket.Connect(this.ipAddress, 65000), cts.Token).Wait(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                throw new CommunicationFailedException("Could not establish a connection to the controller");
+            }
         }
 
         public void SendCommand<TCmdMessage>([NotNull] TCmdMessage command)
