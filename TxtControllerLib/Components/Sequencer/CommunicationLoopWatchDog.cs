@@ -32,7 +32,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
 
         public void StartWatching()
         {
-            cycleTimeChangesSubscription = communicationLoopReactionEvents.Subscribe(OnCommunicationLoopCycleTimeChange);
+            cycleTimeChangesSubscription = communicationLoopReactionEvents.Subscribe(OnCommunicationLoopReaction);
             observerTask = Task.Run(() => WatchDogLoop(cancellationTokenSource.Token));
         }
 
@@ -47,7 +47,7 @@ namespace RoboticsTxt.Lib.Components.Sequencer
             cycleTimeChangesSubscription.Dispose();
         }
 
-        private void OnCommunicationLoopCycleTimeChange(object parameter)
+        private void OnCommunicationLoopReaction(object parameter)
         {
             lock (loopBlockingLock)
             {
