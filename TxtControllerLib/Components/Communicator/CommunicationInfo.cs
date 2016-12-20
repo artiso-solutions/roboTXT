@@ -2,21 +2,23 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using log4net;
 
 namespace RoboticsTxt.Lib.Components.Communicator
 {
     internal class CommunicationInfo
     {
         private readonly Subject<TimeSpan> communicationLoopTimeSubject;
-
         private readonly Subject<Exception> communicationLoopExceptionSubject;
-
         private readonly Subject<bool> controllerConnectionSubject;
-
         private readonly Subject<object> loopReactionSubject;
+
+        private ILog logger;
 
         public CommunicationInfo()
         {
+            logger = LogManager.GetLogger(typeof(CommunicationInfo));
+
             communicationLoopTimeSubject = new Subject<TimeSpan>();
             communicationLoopExceptionSubject = new Subject<Exception>();
             controllerConnectionSubject = new Subject<bool>();
@@ -51,6 +53,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
 
         public void UpdateCommunicationLoopExceptions(Exception loopException)
         {
+            logger.Warn("An exception occurred in the communication loop", loopException);
             Task.Run(() => communicationLoopExceptionSubject.OnNext(loopException));
         }
 
@@ -61,6 +64,7 @@ namespace RoboticsTxt.Lib.Components.Communicator
                 return;
             }
 
+            logger.Debug($"Connection state updated. Connected: {newConnectionState}");
             ConnectedToController = newConnectionState;
             Task.Run(() => controllerConnectionSubject.OnNext(newConnectionState));
         }
