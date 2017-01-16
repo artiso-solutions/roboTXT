@@ -1,7 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
 using RoboticsTxt.Lib.Components.Communicator;
-using RoboticsTxt.Lib.Components.Sequencer;
 using RoboticsTxt.Lib.Contracts;
 using RoboticsTxt.Lib.Interfaces;
 using RoboticsTxt.Lib.Messages;

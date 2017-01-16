@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Common;
 using JetBrains.Annotations;
 using RoboticsTxt.Lib.Components.Communicator;
 using RoboticsTxt.Lib.Contracts;
