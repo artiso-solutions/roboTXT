@@ -31,7 +31,7 @@ namespace TxtControllerLibTests
 
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            communicator.QueueCommand(new StartMotorCommand(Motor.Two, Speed.Maximal, Direction.Right));
+            communicator.QueueCommand(new StartMotorCommand(Motor.Two, (short)Speed.Maximal, Direction.Right));
 
             Thread.Sleep(TimeSpan.FromSeconds(3));
 

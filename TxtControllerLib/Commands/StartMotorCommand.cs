@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using JetBrains.Annotations;
 using RoboticsTxt.Lib.Components.Communicator;
 using RoboticsTxt.Lib.Contracts;
@@ -12,15 +13,12 @@ namespace RoboticsTxt.Lib.Commands
         private readonly short speed;
         private readonly Direction direction;
 
-        public StartMotorCommand(Motor motor, Speed speed, Direction direction)
-        {
-            this.Motor = motor;
-            this.speed = (short)speed;
-            this.direction = direction;
-        }
-
         public StartMotorCommand(Motor motor, short speed, Direction direction)
         {
+            if (speed < 0 || speed > 512)
+            {
+                throw new ArgumentOutOfRangeException("Parameter \"speed\" is out of range. (min: 0, max: 512)");
+            }
             this.Motor = motor;
             this.speed = speed;
             this.direction = direction;
