@@ -12,12 +12,27 @@ namespace RoboticsTxt.Lib.Components.Sequencer
     public interface IControllerSequencer : IDisposable
     {
         /// <summary>
+        /// Set a value to the output pin.
+        /// </summary>
+        /// <param name="output">The output to set.</param>
+        /// <param name="outputValue">The outputValue of the output pin. (min: 0, max: 512)</param>
+        void SetOutput(Output output, short outputValue);
+
+        /// <summary>
         /// Starts the specified <paramref name="motor"/> immediately.
         /// </summary>
         /// <param name="motor">The motor to start.</param>
         /// <param name="speed">The speed of the motor.</param>
         /// <param name="direction">The direction to start.</param>
         void StartMotor(Motor motor, Speed speed, Direction direction);
+
+        /// <summary>
+        /// Starts the specified <paramref name="motor"/> immediately.
+        /// </summary>
+        /// <param name="motor">The motor to start.</param>
+        /// <param name="speed">The speed of the motor. (min: 0, max: 512)</param>
+        /// <param name="direction">The direction to start.</param>
+        void StartMotor(Motor motor, short speed, Direction direction);
 
         /// <summary>
         /// Stops the specified <paramref name="motor"/> immediately.
@@ -37,6 +52,17 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         Task<bool> StartMotorStopWithDigitalInputAsync(Motor motor, Speed speed, Direction direction, DigitalInput digitalInput, bool expectedInputState, TimeSpan? timeout = null);
 
         /// <summary>
+        /// Starts the specified <paramref name="motor"/> and stops it on state trigger of the specified <paramref name="digitalInput"/>.
+        /// </summary>
+        /// <param name="motor">The motor to start.</param>
+        /// <param name="speed">The speed of the motor. (min: 0, max: 512)</param>
+        /// <param name="direction">The direction to start.</param>
+        /// <param name="digitalInput">The digital input to trigger the stop.</param>
+        /// <param name="expectedInputState">The expected value for the state trigger.</param>
+        /// <returns>This method is async. The returned task will be completed as soon as the movement is finished.</returns>
+        Task<bool> StartMotorStopWithDigitalInputAsync(Motor motor, short speed, Direction direction, DigitalInput digitalInput, bool expectedInputState, TimeSpan? timeout = null);
+
+        /// <summary>
         /// Starts the specified <paramref name="motor"/> and stops it after the given time span <paramref name="stopAfterTimeSpan"/>.
         /// </summary>
         /// <param name="motor">The motor to start.</param>
@@ -45,6 +71,16 @@ namespace RoboticsTxt.Lib.Components.Sequencer
         /// <param name="stopAfterTimeSpan">The time span which is used to stop the motor again.</param>
         /// <returns>This method is async. The returned task will be completed as soon as the movement is finished.</returns>
         Task StartMotorStopAfterTimeSpanAsync(Motor motor, Speed speed, Direction direction, TimeSpan stopAfterTimeSpan);
+
+        /// <summary>
+        /// Starts the specified <paramref name="motor"/> and stops it after the given time span <paramref name="stopAfterTimeSpan"/>.
+        /// </summary>
+        /// <param name="motor">The motor to start.</param>
+        /// <param name="speed">The speed of the motor. (min: 0, max: 512)</param>
+        /// <param name="direction">The direction to start.</param>
+        /// <param name="stopAfterTimeSpan">The time span which is used to stop the motor again.</param>
+        /// <returns>This method is async. The returned task will be completed as soon as the movement is finished.</returns>
+        Task StartMotorStopAfterTimeSpanAsync(Motor motor, short speed, Direction direction, TimeSpan stopAfterTimeSpan);
 
         /// <summary>
         /// Retrieves the current input state of the specified <paramref name="referenceInput"/>.
